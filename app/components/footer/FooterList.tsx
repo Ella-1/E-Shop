@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-interface FooterListProps{
-    childern: React.ReactNode;
+interface FooterListProps {
+  children: React.ReactNode;
 }
 
-const FooterList: React.FC<FooterListProps > = ({childern}) => {
+const FooterList: React.FC<FooterListProps> = ({ children }) => {
   return (
-    <div className='w-full sm:w-1/2 md:w6-1/4 lg:w-1/6 mb-6 flex flex-col gap-2'>
-        {childern}
-        </div>
-  )
-}
+    <div className='w-full sm:w-1/2 md:w-1/4 lg:w-1/6 mb-6 flex flex-col gap-2'>
+      {children}
+    </div>
+  );
+};
 
-export default FooterList
+export default FooterList;
