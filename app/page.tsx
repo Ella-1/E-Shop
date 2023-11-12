@@ -1,9 +1,25 @@
-import Image from 'next/image'
+import Image from "next/image";
+import Container from "./components/Container";
+import HomeBanner from "./components/Homebanner";
+import { products } from "@/utils/products";
 
 export default function Home() {
   return (
-    <div>
-      E-shop
+    <div className="p-8">
+      <Container>
+        <div>
+          <HomeBanner />
+        </div>
+        <div>
+        {products.map((product: any )=> {
+          return (
+            <div>
+              {product.name}
+            </div>
+          )
+        })}
+        </div>
+      </Container>
     </div>
-  )
+  );
 }
