@@ -1,12 +1,14 @@
 "use client";
 import { Rating } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import SetColors from "@/app/components/products/setColors";
+
 
 interface ProductDetailsProps {
   product: any;
 }
 
-export type CartProduct = {
+export type CartProductTypes = {
   id: string;
   name: string;
   description: string;
@@ -22,8 +24,10 @@ export type selectedImgType = {
   colorCode: string;
   image: string;
 };
+
+
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
-  const [cartProduct, setCartProduct] = useState<CartProduct>({
+  const [cartProduct, setCartProduct] = useState<CartProductTypes>({
     id: product.id,
     name: product.name,
     description: product.description,
@@ -33,6 +37,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     quantity: 1,
     price: product.price,
   });
+
+  const handColorSelect = useCallback((value: selectedImgType) => {}, [cartProduct.selectedImg])
 
   // function for breaking lines
   const Horizontal = () => {
@@ -77,9 +83,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         </div>
 
         <Horizontal />
-        <div>
-          <span className="font-semibold">Colors: </span>
-        </div>
+            
+            <SetColors 
+                 handColorSelect={handColorSelect}
+                 cartProduct={cartProduct}
+                 images={product.images}
+            />
         <Horizontal />
         <div>QUANTITY: </div>
         <Horizontal />
