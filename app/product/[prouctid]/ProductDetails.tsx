@@ -3,40 +3,38 @@ import { Rating } from "@mui/material";
 import React, { useState } from "react";
 
 interface ProductDetailsProps {
-  product: any,
+  product: any;
 }
 
 export type CartProduct = {
-  id: string,
-  name: string,
-  description: string,
-  category: string,
+  id: string;
+  name: string;
+  description: string;
+  category: string;
   brand: string;
-  selectedImg: selectedImgType,
-  quantity: number,
-  price: number,
+  selectedImg: selectedImgType;
+  quantity: number;
+  price: number;
 };
 
 export type selectedImgType = {
-  color: string,
-  colorCode: string,
-  image: string,
+  color: string;
+  colorCode: string;
+  image: string;
 };
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
-  
-    const [cartProduct, setCartProduct] = useState<CartProduct>({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        category: product.category,
-        brand: product.brand,
-        selectedImg: { ...product.images[0] },
-        quantity: 1,
-        price: product.price,
-      });
-    
-  
-    // function for breaking lines
+  const [cartProduct, setCartProduct] = useState<CartProduct>({
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    category: product.category,
+    brand: product.brand,
+    selectedImg: { ...product.images[0]  },
+    quantity: 1,
+    price: product.price,
+  });
+
+  // function for breaking lines
   const Horizontal = () => {
     return <hr className="w-[30%] my-3" />;
   };
@@ -45,9 +43,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     product.reviews.reduce((acc: number, review: any) => {
       return acc + review.rating;
     }, 0) / product.reviews.length;
-  
-  
-    return (
+
+  return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       <div>Images</div>
       <div>
