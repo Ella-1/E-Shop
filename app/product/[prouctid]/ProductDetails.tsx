@@ -3,7 +3,7 @@ import { Rating } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import SetColors from "@/app/components/products/setColors";
 import SetQuantity from "@/app/components/products/setQuantity";
-
+import Button from "@/app/components/button";
 
 interface ProductDetailsProps {
   product: any;
@@ -26,7 +26,6 @@ export type selectedImgType = {
   image: string;
 };
 
-
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   const [cartProduct, setCartProduct] = useState<CartProductTypes>({
     id: product.id,
@@ -34,21 +33,34 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     description: product.description,
     category: product.category,
     brand: product.brand,
-    selectedImg: { ...product.images[0]  },
+    selectedImg: { ...product.images[0] },
     quantity: 1,
     price: product.price,
   });
-
-  const handleQtyIncrease = useCallback(() => {},[])
-  const handleQtyDecrease = useCallback(() => {},[])
-
-  const handColorSelect = useCallback((value:  selectedImgType) => {
+  const handleQtyIncrease = useCallback(() => {
     setCartProduct((prev) => {
-      return { ...prev,  selectedImg: value };
+      return { ...prev, quantity: prev.quantity + 1 };
     });
-  }, [cartProduct.selectedImg]);
+  }, [cartProduct]);
   
-    
+  const handleQtyDecrease = useCallback(() => {
+    setCartProduct((prev) => {
+      // Ensure the quantity doesn't go below 1
+      const newQuantity = prev.quantity - 1 > 0 ? prev.quantity - 1 :  1;
+      return { ...prev, quantity: newQuantity };
+    });
+  }, [cartProduct]);
+  
+
+  const handColorSelect = useCallback(
+    (value: selectedImgType) => {
+      setCartProduct((prev) => {
+        return { ...prev, selectedImg: value };
+      });
+    },
+    [cartProduct.selectedImg]
+  );
+
   // function for breaking lines
   const Horizontal = () => {
     return <hr className="w-[30%] my-3" />;
@@ -92,17 +104,23 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         </div>
 
         <Horizontal />
-            
-            <SetColors 
-                 handColorSelect={handColorSelect}
-                 cartProduct={cartProduct}
-                 images={product.images}
-            />
+
+        <SetColors
+          handColorSelect={handColorSelect}
+          cartProduct={cartProduct}
+          images={product.images}
+        />
         <Horizontal />
         <div>QUANTITY: </div>
         <Horizontal />
-        <SetQuantity  cartProduct={cartProduct} handleQtyIncrease={handleQtyIncrease} handleQtyDecrese={handleQtyDecrease} />
-        <div>Add To Cart</div>
+        <SetQuantity
+          cartProduct={cartProduct}
+          handleQtyIncrease={handleQtyIncrease}
+          handleQtyDecrese={handleQtyDecrease}
+        />
+        <div className="">
+          <Button small label="Add To Cart" onClick={() => {}}/>
+        </div>
       </div>
     </div>
   );
