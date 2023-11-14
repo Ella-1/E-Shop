@@ -2,6 +2,7 @@
 import { Rating } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import SetColors from "@/app/components/products/setColors";
+import SetQuantity from "@/app/components/products/setQuantity";
 
 
 interface ProductDetailsProps {
@@ -38,8 +39,16 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     price: product.price,
   });
 
-  const handColorSelect = useCallback((value: selectedImgType) => {}, [cartProduct.selectedImg])
+  const handleQtyIncrease = useCallback(() => {},[])
+  const handleQtyDecrease = useCallback(() => {},[])
 
+  const handColorSelect = useCallback((value:  selectedImgType) => {
+    setCartProduct((prev) => {
+      return { ...prev,  selectedImg: value };
+    });
+  }, [cartProduct.selectedImg]);
+  
+    
   // function for breaking lines
   const Horizontal = () => {
     return <hr className="w-[30%] my-3" />;
@@ -92,6 +101,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         <Horizontal />
         <div>QUANTITY: </div>
         <Horizontal />
+        <SetQuantity  cartProduct={cartProduct} handleQtyIncrease={handleQtyIncrease} handleQtyDecrese={handleQtyDecrease} />
         <div>Add To Cart</div>
       </div>
     </div>
