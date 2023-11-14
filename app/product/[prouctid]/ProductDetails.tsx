@@ -118,8 +118,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
           handleQtyIncrease={handleQtyIncrease}
           handleQtyDecrese={handleQtyDecrease}
         />
-        <div className="">
-          <Button small label="Add To Cart" onClick={() => {}}/>
+        <div className="max-w-[300px] mt-5">
+          <Button label="Add To Cart" onClick={() => {}}/>
         </div>
       </div>
     </div>
