@@ -16,6 +16,7 @@ type CartContextType = {
   handleCartQtyIncrease: (product: CartProductTypes) => void;
   handleCartQtyDecrease: (product: CartProductTypes) => void;
   handleClearCart: () => void;
+  cartTotalAmount: number;
 };
 
 export const CartContex = createContext<CartContextType | null>(null);
@@ -29,12 +30,38 @@ export const CartContextProvider = (props: Props) => {
   const [cartProducts, setCartProduct] = useState<CartProductTypes[] | null>(
     null
   );
+  const [cartTotalAmount,setCartTotalAmount ] = useState(0)
 
+  // The hook that adds a product to the cart and local storage
   useEffect(() => {
     const cartItems: any = localStorage.getItem("Ecommerce");
     const cProducts: CartProductTypes[] | null = JSON.parse(cartItems);
     setCartProduct(cProducts);
   }, []);
+
+  // getting the total price
+  useEffect(() => {
+    const getTotals = () => {
+      if (cartProducts) {
+        const { total, qty } = cartProducts?.reduce(
+          (acc, item) => {
+            const itemTotal = item.price * item.quantity;
+            acc.total += itemTotal;
+            acc.qty += item.quantity;
+
+            return acc;
+          },
+          {
+            total: 0,
+            qty: 0, // the default values we passed here is called our accumulator
+          }
+        );
+        setCartTotalQty(qty)
+        setCartTotalAmount(total)
+      }
+    };
+    getTotals()
+  }, [cartProducts]);
 
   const handleCartQtyIncrease = useCallback(
     (product: CartProductTypes) => {
@@ -107,7 +134,7 @@ export const CartContextProvider = (props: Props) => {
   const handleClearCart = useCallback(() => {
     setCartProduct(null);
     setCartTotalQty(0);
-   localStorage.setItem("Ecommerce", JSON.stringify(null));
+    localStorage.setItem("Ecommerce", JSON.stringify(null));
   }, [cartProducts]);
 
   const handleAddProductToCart = useCallback((product: CartProductTypes) => {
@@ -146,7 +173,8 @@ export const CartContextProvider = (props: Props) => {
     handleRemoveProductFromCart,
     handleCartQtyIncrease,
     handleCartQtyDecrease,
-    handleClearCart
+    handleClearCart,
+    cartTotalAmount,
   };
   return <CartContex.Provider value={value} {...props} />;
 };
