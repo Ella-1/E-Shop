@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { CartProductTypes } from '@/app/product/[prouctid]/ProductDetails'
+import { CartProductTypes } from '@/app/product/[productId]/ProductDetails'
 import exp from 'constants';
 
 interface SetQtyProps {

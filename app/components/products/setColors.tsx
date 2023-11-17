@@ -3,7 +3,7 @@ import React from "react";
 import {
   selectedImgType,
   CartProductTypes,
-} from "@/app/product/[prouctid]/ProductDetails";
+} from "@/app/product/[productId]/ProductDetails";
 
 interface SetColorProps {
   images: selectedImgType[];

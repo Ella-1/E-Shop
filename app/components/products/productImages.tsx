@@ -1,5 +1,5 @@
 "use client"
-import { CartProductTypes, selectedImgType } from '@/app/product/[prouctid]/ProductDetails'
+import { CartProductTypes, selectedImgType } from '@/app/product/[productId]/ProductDetails'
 import React from 'react'
 import Image from 'next/image'
 
