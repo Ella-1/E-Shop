@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "../components/products/heading";
 import Input from "../components/inputs/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -11,13 +11,20 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { SafeUser } from "@/types";
 
-// interface LoginFormProps {
-//   currentUser: SafeUser | null
-// }
+interface LoginFormProps {
+  currentUser: SafeUser | null
+}
 
 
-const LoginForm = () => {
+const LoginForm: React.FC<LoginFormProps> = ({currentUser}) => {
     const [isLoading, setIsLoading] = useState(false);
+    
+    useEffect(() => {
+      if(currentUser){
+        router.push('/carts')
+        router.refresh()
+      }
+    }, [])
     
     const {
       register,
@@ -45,16 +52,16 @@ const LoginForm = () => {
       })
     }
 
-    // if(currentUser) {
-    //   return <p>You Are Logged In. Redirecting...</p>
-    // }
+    if(currentUser) {
+      return <p className="text-semibold text-slate-500">You Are Logged In. Redirecting...</p>
+    }
 
   return (
     <>
          <Heading title="Sign In" />
       
       <hr className="bg-slate-300 w-full h-px mt-5 mb-5" />
-      <Button onClick={() =>{}}outline label="Continue With Google"  icon={AiOutlineGoogle} />
+      <Button onClick={() =>{signIn('google')}}outline label="Continue With Google"  icon={AiOutlineGoogle} />
   
      <Input
         id="email"
