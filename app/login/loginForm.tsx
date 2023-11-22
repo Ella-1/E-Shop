@@ -9,11 +9,16 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { SafeUser } from "@/types";
 
+// interface LoginFormProps {
+//   currentUser: SafeUser | null
+// }
 
 
 const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
+    
     const {
       register,
       handleSubmit,
@@ -39,6 +44,10 @@ const LoginForm = () => {
 
       })
     }
+
+    // if(currentUser) {
+    //   return <p>You Are Logged In. Redirecting...</p>
+    // }
 
   return (
     <>

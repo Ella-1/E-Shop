@@ -5,9 +5,15 @@ import { Redressed } from 'next/font/google'
 import { CartCount } from './cartCount'
 import { UserMenu } from './userMenu'
 
+import { GetCurrentUser } from "@/actions/getCurrentUser";
+
 const redressed = Redressed({subsets: ['latin'], weight: ['400']})
 
-function NavBar() {
+async function NavBar() {
+
+  const currentUser =  await GetCurrentUser()
+ 
+
   return (
     <div className='sticky top-0 w-full bg-slate-200 z-30 shadow-sm'>
       <div className='py-4 border-b-[1px]'>
@@ -17,7 +23,7 @@ function NavBar() {
             <div className='hidden md:block'>Search</div>
             <div className='flex items-center gap-8 md:gap-12'>
               <CartCount />
-              <UserMenu />
+              <UserMenu currentUser={currentUser}/>
             </div>
           </div>
         </Container>
