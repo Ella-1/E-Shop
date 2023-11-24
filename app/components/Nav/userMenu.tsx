@@ -27,7 +27,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
           onClick={toggleOpen}
           className="p-2 border-[1px]  border-slate-400 flex flex-grow item-center gap-1 rounded-full cursor-pointer hover:shadow-md text-slate-700 hover:duration-300"
         >
-          <Avater />
+          <Avater src={currentUser?.image}/>
           <AiFillCaretDown />
         </div>
         {isOpen && (
