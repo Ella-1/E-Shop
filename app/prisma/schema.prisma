@@ -37,20 +37,21 @@ model User {
     createdAt      DateTime  @default(now())
     updatedAt      DateTime  @updatedAt
     role           Role      @default(USER)
-    orders          Order[]
+    orders         Order[]
 }
 
 model Order {
-    id             String             @id @default(auto()) @map("_id") @db.ObjectId
-    userId         String             @db.ObjectId
-    amount         Float
-    currency       String
-    status         String
-    deliveryStatus String?
-    createdDate    DateTime           @default(now())
-    products       CartProductTypes[]
-    address        Address?
-    user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id              String             @id @default(auto()) @map("_id") @db.ObjectId
+    userId          String             @db.ObjectId
+    amount          Float
+    currency        String
+    status          String
+    deliveryStatus  String?
+    paymentIntentId String             @unique
+    createdDate     DateTime           @default(now())
+    products        CartProductTypes[]
+    address         Address?
+    user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 type CartProductTypes {

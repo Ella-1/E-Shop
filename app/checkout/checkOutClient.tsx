@@ -5,20 +5,28 @@ import FormWrap from "../components/formWrap";
 import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-const router = useRouter();
+import { loadStripe } from "@stripe/stripe-js";
+
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLEKEY as string)
 
 const CheckOutClient = () => {
   const { paymentIntent, cartProducts, handleSetPaymentIntent } = useCart();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
-    console.log("paymentIntent", paymentIntent)
+ 
+  console.log("paymentIntent", paymentIntent); // Remove or replace
+  console.log("clientSecet", clientSecret); // Remove or replace
+  
 
+  const router = useRouter();
   useEffect(() => {
     // creates payment intent as soon as page loads
     if (cartProducts) {
       setLoading(true);
       setError(false);
+    //   axios.post("/api/CreatePayment",{cartProducts,  paymentIntent} )
 
       fetch("/api/create-payment-intent", {
         method: "POST",
@@ -37,12 +45,14 @@ const CheckOutClient = () => {
           }
           return res.json();
         })
+
         .then((data) => {
           setClientSecret(data.paymentIntent.client_secret);
           handleSetPaymentIntent(data.paymentIntent.id); // store info in local storage
         })
         .catch((error) => {
           setError(true);
+          setLoading(false); // Add this line
           toast.error("Something went wrong");
         });
     }

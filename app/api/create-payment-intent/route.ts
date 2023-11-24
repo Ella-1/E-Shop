@@ -3,7 +3,7 @@ import prisma from '@/libs/prismadb'
 import { NextResponse, NextRequest } from "next/server";
 import { CartProductTypes } from "@/app/product/[productId]/ProductDetails";
 import { GetCurrentUser } from "@/actions/getCurrentUser";
-import { error } from "console";
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: "2023-10-16"
@@ -16,7 +16,9 @@ const calculateOrderAmount = (items: CartProductTypes[]) => {
         return acc + itemTotal;
 
     }, 0)
-    return totalPrice
+    const price: any = Math.floor(totalPrice)
+
+    return price
 }
 export async function POST(request: NextRequest) {
     const currrentUser = await GetCurrentUser();
