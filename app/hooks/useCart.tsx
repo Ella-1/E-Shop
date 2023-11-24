@@ -17,6 +17,8 @@ type CartContextType = {
   handleCartQtyDecrease: (product: CartProductTypes) => void;
   handleClearCart: () => void;
   cartTotalAmount: number;
+  paymentIntent: string | null;
+  handleSetPaymentIntent: (val: string | null) => void;
 };
 
 export const CartContex = createContext<CartContextType | null>(null);
@@ -31,12 +33,19 @@ export const CartContextProvider = (props: Props) => {
     null
   );
   const [cartTotalAmount,setCartTotalAmount ] = useState(0)
+  const [paymentIntent, setPaymentIntent] = useState<string | null> (null)
 
   // The hook that adds a product to the cart and local storage
   useEffect(() => {
     const cartItems: any = localStorage.getItem("Ecommerce");
     const cProducts: CartProductTypes[] | null = JSON.parse(cartItems);
+    const eshopPaymentIntent: any = localStorage.getItem('eshopPaymentIntent')
+    // once we have the payment intent we updae our state
+    const paymentIntent: string| null = JSON.parse(eshopPaymentIntent)
+    
+
     setCartProduct(cProducts);
+    setPaymentIntent(paymentIntent)
   }, []);
 
   // getting the total price
@@ -166,6 +175,12 @@ export const CartContextProvider = (props: Props) => {
     [cartProducts]
   );
 
+  // function that helps us add that local intent to our storage
+  const handleSetPaymentIntent = useCallback((val: string | null) => {
+    setPaymentIntent(val);
+    localStorage.setItem('eshopPaymentIntent', JSON.stringify(val))
+  }, [paymentIntent])
+
   const value = {
     cartTotalQty,
     cartProducts,
@@ -175,6 +190,8 @@ export const CartContextProvider = (props: Props) => {
     handleCartQtyDecrease,
     handleClearCart,
     cartTotalAmount,
+    paymentIntent,
+    handleSetPaymentIntent
   };
   return <CartContex.Provider value={value} {...props} />;
 };
