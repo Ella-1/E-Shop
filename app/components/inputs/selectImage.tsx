@@ -19,7 +19,7 @@ export const SelectImage: React.FC<SelectImageProps> = ({
         handleFileChange(acceptedFiles[0]) // we handle file chand and accept the first one
     }
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: {'Image/*': ['.jepg', '.png']} });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: {'image/*': ['.jpeg', '.png']}});
 
   return <div {...getRootProps()} className="border-2 border-slate-400 p-2 border-dashed  cursor-pointer text-sm font-normal text-slate-400 flex items-center justify-center">
     <input {...getInputProps()} />
