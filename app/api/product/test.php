@@ -35,6 +35,7 @@ class AccountPlanner {
             $version_string
         );
 
+
         // Enqueue theme stylesheet.
         wp_enqueue_style('accountplanner-style');
 
