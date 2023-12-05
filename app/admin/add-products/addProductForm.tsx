@@ -14,6 +14,7 @@ import firebase from "firebase/compat/app";
 import React, { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import prisma from '@/libs/prismadb'
 import {
   getDownloadURL,
   getStorage,
@@ -21,6 +22,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import firebaseApp from "@/libs/firebase";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export type ImageType = {
   color: string;
@@ -30,7 +33,7 @@ export type ImageType = {
 export type UploadedImageType = {
   color: string;
   colorCode: string;
-  image: string;
+  image: string
 };
 
 export default function AddProductForm() {
@@ -38,6 +41,7 @@ export default function AddProductForm() {
   const [images, setImages] = useState<ImageType[] | null>();
   const [isProductCreated, setIsProductCreated] = useState(false);
 
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -57,33 +61,33 @@ export default function AddProductForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // uploads image to firebase
-    //save product to mongo db
+  const OnSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log("Product Data", images);
     setIsloading(true);
-    let uploadedImages: UploadedImageType[] = [];
-    if (!data.category) {
+    let uploadedImages: UploadedImageType[] = []
+    
+    if(!data.category){
       setIsloading(false);
-      return toast.error("Category is not selected");
+      return toast.error("Category is not Selected")
     }
 
-    if (!data.images || data.images.length === 0) {
+    if(!data.images || data.images.length === 0){
       setIsloading(false);
-      return toast.error("No selected Image");
+      return toast.error("No Selected Image")
     }
 
     const handleImageUploads = async () => {
-      toast("Creating product, please wait ...");
+      toast('Creating Product, Please Wait...');
       try {
-        for (const item of data.images)
-          if (item.image) {
-            const fileName = new Date().getDate() + "-" + item.image.name;
-            const storage = getStorage(firebaseApp);
-            const storageRef = ref(storage, `products/${fileName}`); //path for firebase storage
-            const uploadedTask = uploadBytesResumable(storageRef, item.image);
-            await new Promise<void>((resolve, reject) => {
-              uploadedTask.on(
-                "state_changed",
+           for(const item of data.images){
+            if(item.image){
+              const fileName = new Date().getTime() + '-' + item.image.name
+              const storage = getStorage(firebaseApp)
+              const storageRef = ref(storage, `product/${fileName}`)
+              const uploadTask = uploadBytesResumable(storageRef, item.image);
+              await new Promise<void>((resolve,reject) => {
+                uploadTask.on(
+                  "state_changed",
                 (snapshot) => {
                   // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                   const progress =
@@ -105,7 +109,7 @@ export default function AddProductForm() {
                 // on successful uploads
                 () => {
                   // Upload completed successfully, now we can get the download URL
-                  getDownloadURL(uploadedTask.snapshot.ref)
+                  getDownloadURL(uploadTask.snapshot.ref)
                     .then((downloadURL) => {
                       uploadedImages.push({
                         ...item,
@@ -117,23 +121,38 @@ export default function AddProductForm() {
                     .catch((error) => {
                       reject();
                       console.log("Error getting the DOWNLOADABLE URL");
-
+                     toast.error("Error Handling Image Uploads")
                     });
                 }
-              );
-            });
-          }
-      } catch (error) {
+              
+                )
+              })
+            }
+           }
+      } catch(error) {
         setIsloading(false)
-        console.log('Error Handling image uploads', error)
-        return toast.error("Error handling image uploads")
+        console.log("Error Handling image uploads", error)
       }
-    };
+    }
 
-    await handleImageUploads();
-    const productData = {...data, images: uploadedImages }
-    console.log(productData)
-  };
+    
+
+    await handleImageUploads()
+    const productData = {...data, images: uploadedImages}
+    console.log("Product data",productData)
+
+    axios.post('/api/product', productData).then(()=>{
+      toast.success('Product Created');
+      setIsProductCreated(true);
+      router.refresh()
+    }).catch((error:any)=>{
+      
+        toast.error("Opps ... Something went wrong")
+        console.log(error)
+    }).finally(()=> {
+      setIsloading(false)
+    })
+  }
 
   const category = watch("category");
   const setConstantValue = (id: string, value: any) => {
@@ -270,7 +289,7 @@ export default function AddProductForm() {
       </div>
       <Button
         label={isLoading ? "Loading..." : "Add Product"}
-        onClick={handleSubmit(onSubmit)}
+        onClick={handleSubmit(OnSubmit)}
       />
     </>
   );
