@@ -26,11 +26,11 @@ export default async function GetProduct(params: IProductParams) {
                 OR: [
                     {
                         name: {
-                            contain: searchString,
+                            contains: searchString,
                             mode: 'insensitive'
                         }, 
                         description: {
-                            contain: searchString,
+                            contains: searchString,
                             mode: 'insensitive'
                         }
                     }
