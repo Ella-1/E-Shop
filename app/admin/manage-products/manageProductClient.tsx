@@ -49,7 +49,7 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
     { field: "name", headerName: "Name", width: 220 },
     {
       field: "price",
-      headerName: "Price(USD",
+      headerName: "Price(USD)",
       width: 220,
       renderCell: (params) => {
         return (
@@ -96,8 +96,10 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
               icon={MdCached}
               onClick={() => handleToggleStock(params.row.id, params.row.inStock)}
             />
-            <ActionBtn icon={MdDelete} onClick={() => {handleDelete}} />
-            <ActionBtn icon={MdRemoveRedEye} onClick={() => {params.row.id, params.row.images}} />
+            <ActionBtn icon={MdDelete} onClick={() => {handleDelete(params.row.id, params.row.images)}} />
+            <ActionBtn icon={MdRemoveRedEye} onClick={() => {
+              router.push(`product/${params.row.id}`)
+            }} />
           </div>
         );
       },
@@ -120,8 +122,8 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
       });
   }, []);
 
-  const handleDelete =useCallback(async(id:string, images: any[])=> {
-    toast('Deleting In Proress')
+  const handleDelete = useCallback(async(id:string, images: any[])=> {
+    toast('Deleting In Progress Please wait ...')
     // dleating image
     const handleImageDelete = async () => {
       try{
@@ -142,7 +144,7 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
     await handleImageDelete()
     axios.delete(`/api/product/${id}`)
     .then((res) => {
-      toast.success("Product Deleted changed");
+      toast.success("Product Deleted");
       router.refresh();
     })
     .catch((err) => {

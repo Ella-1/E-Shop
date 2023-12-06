@@ -27,7 +27,7 @@ const pathname = usePathname() //to know the current path we are on
           </Link>
 
           <Link href={'/admin/manage-orders'}>
-          <AdminNavItem  label="Manage Ordrs" icon={MdFormatListBulleted} selected={pathname === '/admin/manage-orders'}/>
+          <AdminNavItem  label="Manage Orders" icon={MdFormatListBulleted} selected={pathname === '/admin/manage-orders'}/>
           </Link>
         </div>
       </Container>
