@@ -1,12 +1,23 @@
 "use client";
 import { Product } from "@prisma/client";
-import React from "react";
+import React, { useCallback } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { formatPrice } from "@/utils/FormatPrice";
 import Heading from "@/app/components/products/heading";
 import { Status } from "@/app/components/status";
-import { MdCached, MdClose, MdDelete, MdDone, MdRemoveRedEye } from "react-icons/md";
+import {
+  MdCached,
+  MdClose,
+  MdDelete,
+  MdDone,
+  MdRemoveRedEye,
+} from "react-icons/md";
 import ActionBtn from "@/app/components/actionBtn";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import {deleteObject, getStorage, ref } from "firebase/storage";
+import firebaseApp from "@/libs/firebase";
 
 interface ManageProductClientProps {
   products?: Product[];
@@ -16,6 +27,8 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
   products,
 }) => {
   let rows: any = [];
+  const router = useRouter();
+  const storage = getStorage(firebaseApp)
 
   if (products) {
     rows = products.map((product) => {
@@ -52,7 +65,7 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
       width: 120,
       renderCell: (params) => {
         return (
-          <div>
+          <div className="cursor-pointer">
             {params.row.inStock === true ? (
               <Status
                 text="InStock"
@@ -79,15 +92,64 @@ const ManageProductClient: React.FC<ManageProductClientProps> = ({
       renderCell: (params) => {
         return (
           <div className="flex justify-between gap-4 w-full">
-            <ActionBtn icon={MdCached} onClick={() => {}} />
-            <ActionBtn icon={MdDelete} onClick={() => {}} />
-            <ActionBtn icon={MdRemoveRedEye} onClick={() => {}} />
+            <ActionBtn
+              icon={MdCached}
+              onClick={() => handleToggleStock(params.row.id, params.row.inStock)}
+            />
+            <ActionBtn icon={MdDelete} onClick={() => {handleDelete}} />
+            <ActionBtn icon={MdRemoveRedEye} onClick={() => {params.row.id, params.row.images}} />
           </div>
         );
       },
     },
   ];
 
+  const handleToggleStock = useCallback((id: string, inStock: boolean) => {
+    axios.put("/api/product", {
+        id,
+        inStock: !inStock,
+        //negate stock for toggle
+      })
+      .then((res) => {
+        toast.success("Product Status changed");
+        router.refresh();
+      })
+      .catch((err) => {
+        toast.error("Oops something Went Wrong");
+        console.log(err);
+      });
+  }, []);
+
+  const handleDelete =useCallback(async(id:string, images: any[])=> {
+    toast('Deleting In Proress')
+    // dleating image
+    const handleImageDelete = async () => {
+      try{
+        for(const item of images) {
+          if(item.image){
+            const imageRef = ref(storage, item.image)
+          await deleteObject(imageRef)
+          console.log('Deleting Image')
+          }
+        }
+
+      } catch(error) {
+        console.log("Error Deleting image")
+
+      }
+
+    }
+    await handleImageDelete()
+    axios.delete(`/api/product/${id}`)
+    .then((res) => {
+      toast.success("Product Deleted changed");
+      router.refresh();
+    })
+    .catch((err) => {
+      toast.error("Oops something Went Wrong");
+      console.log(err);
+    });
+  }, [])
   return (
     <div className="max-w-[1150px] m-auto text-xl">
       <div className="mb-4 mt-8">

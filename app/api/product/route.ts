@@ -5,32 +5,51 @@ import { NextResponse, NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
 
-  try {
-      const currentUser = await GetCurrentUser();
+    try {
+        const currentUser = await GetCurrentUser();
 
-      if (!currentUser || currentUser.role !== 'ADMIN') {
-          console.log('Unauthorized request:', currentUser);
-          return NextResponse.error(); // Return a 403 Forbidden error
-      }
+        if (!currentUser || currentUser.role !== 'ADMIN') {
+            console.log('Unauthorized request:', currentUser);
+            return NextResponse.error(); // Return a 403 Forbidden error
+        }
 
-      const body = await request.json();
-      const { name, description, price, brand, category, inStock, images } = body;
+        const body = await request.json();
+        const { name, description, price, brand, category, inStock, images } = body;
 
-      const product = await prisma.product.create({
-          data: {
-              name,
-              description,
-              brand,
-              category,
-              inStock,
-              images,
-              price: parseFloat(price),
-          }
-      });
+        const product = await prisma.product.create({
+            data: {
+                name,
+                description,
+                brand,
+                category,
+                inStock,
+                images,
+                price: parseFloat(price),
+            }
+        });
 
-      return NextResponse.json(product);
-  } catch (error) {
-      console.error('Error processing the request:', error);
-      return NextResponse.error(); // Return a 500 Internal Server Error
-  }
+        return NextResponse.json(product);
+    } catch (error) {
+        console.error('Error processing the request:', error);
+        return NextResponse.error(); // Return a 500 Internal Server Error
+    }
+}
+
+export async function PUT(request:Request) {
+    const currentUser = await GetCurrentUser();
+
+    if (!currentUser || currentUser.role !== 'ADMIN') {
+        console.log('Unauthorized request:', currentUser);
+        return NextResponse.error(); // Return a 403 Forbidden error
+    }
+
+    const body = await request.json()
+    const {id, inStock} = body
+
+    const product = await prisma.product.update({
+        where: {id: id},
+        data:{inStock}
+    })
+
+    return NextResponse.json(product)
 }
