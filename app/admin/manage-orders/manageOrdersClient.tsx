@@ -35,7 +35,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
         id: order.id,
         customer: order.user.name,
         amount: formatPrice(order.amount / 100),
-        paymentStatus: order.status,
+        status: order.status,
         date: moment(order.createdDate).fromNow(),
         deliveryStatus: order.status,
       };
@@ -56,20 +56,20 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
       },
     }, 
     {
-      field: "paymentStatus",
+      field: "status",
       headerName: "Payment Status",
       width: 130,
       renderCell: (params) => {
         return (
           <div className="cursor-pointer">
-            {params.row.paymentStatus === "pending" ? (
+            {params.row.status === "pending" ? (
               <Status
                 text="pending"
                 icon={MdAccessTimeFilled}
                 bg="bg-slate-200"
                 color="text-slate-700"
               />
-            ) : params.row.paymentStatus === "complete" ? (
+            ) : params.row.status === "complete" ? (
               <Status
                 text="completed"
                 icon={MdDone}
@@ -146,7 +146,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
             <ActionBtn
               icon={MdRemoveRedEye}
               onClick={() => {
-                window.location.href = `/${params.row.id}`;
+                window.location.href = `/order/${params.row.id}`;
               }}
             />
           </div>
