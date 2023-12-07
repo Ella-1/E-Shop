@@ -1,6 +1,6 @@
 import Container from "@/app/components/Container";
 
-import GetOrderById from "@/actions/getOrderBtId";
+import GetOrderById from "@/actions/getOrderById";
 import NullData from "@/app/components/nullData";
 import { OrderDetails } from "./orderDetails";
 

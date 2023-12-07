@@ -8,10 +8,13 @@ export async function POST(request: NextRequest) {
     try {
         const currentUser = await GetCurrentUser();
 
+        if (!currentUser) return NextResponse.error()
+
         if (!currentUser || currentUser.role !== 'ADMIN') {
             console.log('Unauthorized request:', currentUser);
             return NextResponse.error(); // Return a 403 Forbidden error
         }
+
 
         const body = await request.json();
         const { name, description, price, brand, category, inStock, images } = body;
@@ -35,7 +38,7 @@ export async function POST(request: NextRequest) {
     }
 }
 
-export async function PUT(request:Request) {
+export async function PUT(request: Request) {
     const currentUser = await GetCurrentUser();
 
     if (!currentUser || currentUser.role !== 'ADMIN') {
@@ -44,11 +47,11 @@ export async function PUT(request:Request) {
     }
 
     const body = await request.json()
-    const {id, inStock} = body
+    const { id, inStock } = body
 
     const product = await prisma.product.update({
-        where: {id: id},
-        data:{inStock}
+        where: { id: id },
+        data: { inStock }
     })
 
     return NextResponse.json(product)

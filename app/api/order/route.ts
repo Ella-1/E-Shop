@@ -5,6 +5,9 @@ import { NextResponse, NextRequest } from 'next/server';
 export async function PUT(request:Request) {
     const currentUser = await GetCurrentUser();
 
+
+    if (!currentUser) return NextResponse.error()
+
     if (!currentUser || currentUser.role !== 'ADMIN') {
         console.log('Unauthorized request:', currentUser);
         return NextResponse.error(); // Return a 403 Forbidden error
