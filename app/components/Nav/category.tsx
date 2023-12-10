@@ -1,3 +1,4 @@
+"use client"
 // Import necessary modules and components
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
