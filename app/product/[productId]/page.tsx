@@ -3,15 +3,20 @@ import React from "react";
 import ProductDetails from "./ProductDetails";
 import Container from "@/app/components/Container";
 import ListRating from "./listRating";
+import getProductById from "@/actions/getProductsById";
+import NullData from "@/app/components/nullData";
 
 interface IPrams {
   productId?: string;
 }
 
-function ProductPage({ params }: { params: IPrams }) {
-  const product = products.find(
-    (item) => item.id.toString() === params.productId
-  );
+async function ProductPage({ params }: { params: IPrams }) {
+  // const product = products.find(
+  //   (item) => item.id.toString() === params.productId
+  // );
+
+  const product = await getProductById(params)
+  if(!product)  return <NullData title="Opps No Product Found Pls Wait..."/>
 
   return (
     <div className="p-8">

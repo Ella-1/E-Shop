@@ -6,6 +6,8 @@ import { CartCount } from './cartCount'
 import { UserMenu } from './userMenu'
 
 import { GetCurrentUser } from "@/actions/getCurrentUser";
+import Categories from './categories'
+import CategoriesPage from './categories'
 
 const redressed = Redressed({subsets: ['latin'], weight: ['400']})
 
@@ -29,6 +31,7 @@ async function NavBar() {
         </Container>
 
       </div>
+      <CategoriesPage />
       </div>
   )
 }
