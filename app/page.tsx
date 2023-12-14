@@ -5,6 +5,7 @@ import { Truncate } from "@/utils/truncateTex";
 import ProductCards from "./components/products/ProductCards";
 import GetProduct, { IProductParams } from "@/actions/getProduct";
 import NullData from "./components/nullData";
+import { AddRating } from "./product/[productId]/addRating";
 
 interface HomeProps{
   searchParams: IProductParams
@@ -46,6 +47,7 @@ export default async function Home({searchParams}: HomeProps) {
               <ProductCards data={product}/>
         
             </div>
+            
           )
         })}
        </div>

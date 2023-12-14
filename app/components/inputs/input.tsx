@@ -2,7 +2,7 @@
 import React from "react";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
-interface InputProps {
+type InputProps = {
   id: string;
   label: string;
   type?: string;

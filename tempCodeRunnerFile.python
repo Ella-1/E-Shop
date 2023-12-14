@@ -1,0 +1,4 @@
+def sum(a:int,b:str):
+    return a + b
+
+print(sum(2,3))

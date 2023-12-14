@@ -5,8 +5,9 @@ import Container from "@/app/components/Container";
 import ListRating from "./listRating";
 import getProductById from "@/actions/getProductsById";
 import NullData from "@/app/components/nullData";
-import { AddRating } from "./addRating";
+
 import { GetCurrentUser } from "@/actions/getCurrentUser";
+import { AddRating } from "./addRating";
 
 interface IPrams {
   productId?: string;
@@ -30,8 +31,12 @@ async function ProductPage({ params }: { params: IPrams }) {
         </div>
         <div className="flex flex-col mt-20 gap-4">
          {/* adding rating */}
-         <AddRating  product={product} user={user}/>
-          <ListRating product={product} />
+         
+        
+         <ListRating product={product} />
+         
+          <AddRating product={product} user={user} />
+       
         </div>
       </Container>
     </div>

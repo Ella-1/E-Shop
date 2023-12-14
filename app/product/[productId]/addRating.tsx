@@ -55,7 +55,7 @@ export const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     }
     // get the information of the person making the review
     const ratingData = {...data, userId: user?.id, product: product}
-    axios.post('/api/rating', ratingData).then(()=> {
+    axios.post('/api/review', ratingData).then(()=> {
       toast.success('Rating Submited Successfully!')
     }).catch((error) => {
       toast.error("Somthing Went Wrong")
@@ -75,8 +75,9 @@ export const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
 
 
   return (
-    <div className="flex flex-col gap-2  mt-6 max-w-[500px]">
+    <div className="flex flex-col gap-2  mt-10 max-w-[500px]">
       <Heading title="Rate This Product" />
+    
       <Rating
         onChange={(event, newValue) => {
           setConstantValue("rating", newValue);
