@@ -1,3 +1,4 @@
+export const revalidate = 0
 import Image from "next/image";
 import Container from "./components/Container";
 import HomeBanner from "./components/HomeBanner";
@@ -44,7 +45,7 @@ export default async function Home({searchParams}: HomeProps) {
        {shuffledProducts.map((product: any )=> {
           return (
             <div>
-              <ProductCards data={product}/>
+              <ProductCards data={product} key={product.id}/>
         
             </div>
             
