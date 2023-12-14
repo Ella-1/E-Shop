@@ -36,8 +36,9 @@ function Footer() {
               selection of phones. TV's laptops, watches and accessories
             </p>
             <p>
-              &copy; {new Date().getFullYear()} E~Commerce. Al rights reserved{" "}
-            </p>
+  &copy; {new Date().getFullYear()} E~Commerce. All rights reserved{" "}
+</p>
+
           </div>
 
           <FooterList>
