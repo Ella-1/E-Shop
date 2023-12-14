@@ -48,7 +48,7 @@ export const CartClient: React.FC<CartClientProps> = ({currentUser}) => {
       <div>
         {cartProducts &&
           cartProducts.map((item) => {
-            return <div >
+            return <div key={item.id}  >
                 <ItemContent key={item.id} item={item}/>
             </div>;
           })}
