@@ -19,7 +19,7 @@ const CategoriesPage = () => {
         <Container>
             <div className='pt-4 flex  flex-row items-center justify-between overflow-x-auto'>
                 {Categories.map((item) => (
-                    <div>
+                    <div key ={item.label}>
                         <Category 
                         key ={item.label}
                         label={item.label}
