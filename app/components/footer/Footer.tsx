@@ -35,9 +35,9 @@ function Footer() {
               and greatest devices and Accessories to our customers.With a wide
               selection of phones. TV's laptops, watches and accessories
             </p>
-{/*            <p>
-  &copy; {new Date().getFullYear()} E~Commerce. All rights reserved{" "}
-</p> */}
+           <p>
+  &copy; {new Date().getFullYear()} E~Commerce. All rights reserved
+</p>
 
 
           </div>
