@@ -9,7 +9,7 @@ async function Cart() {
     <div className="pt-8">
       <Container>
         <div>
-          <CartClient currentUser={currentUser} />
+          <CartClient currentUser={currentUser} key={currentUser.id}/>
         </div>
       </Container>
     </div>
