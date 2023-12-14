@@ -45,7 +45,7 @@ export default async function Home({searchParams}: HomeProps) {
        {shuffledProducts.map((product: any )=> {
           return (
             <div key={product.id}>
-              <ProductCards data={product} key={product.id}/>
+              <ProductCards data={product} />
         
             </div>
             
