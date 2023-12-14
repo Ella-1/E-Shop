@@ -21,7 +21,6 @@ const CategoriesPage = () => {
                 {Categories.map((item) => (
                     <div key ={item.label}>
                         <Category 
-                        key ={item.label}
                         label={item.label}
                         icon={item.icon}
                         selected={category === item.label || (category === null && item.label === 'All')}
