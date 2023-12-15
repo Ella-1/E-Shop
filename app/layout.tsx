@@ -6,8 +6,7 @@ import Footer from "./components/footer/Footer";
 import { CartProviders } from "./providers/cartProviders";
 import { Toaster } from "react-hot-toast";
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
-
+// const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 export const metadata: Metadata = {
   title: "E-Commerce",
   description: "Ecommerce App",
@@ -22,7 +21,7 @@ export default async function RootLayout({
   
   return (
     <html lang="en">
-      <body className={`${poppins.className} text-slate-700`}>
+      <body className={`font-poppins text-slate-700`}>
         <Toaster toastOptions={{
           style: {
             background: 'rgb(51 65 85)',

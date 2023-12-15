@@ -8,8 +8,8 @@ async function Cart() {
   return (
     <div className="pt-8">
       <Container>
-        <div>
-          <CartClient currentUser={currentUser} key={currentUser.id}/>
+        <div  key={currentUser?.id}>
+          <CartClient currentUser={currentUser}/>
         </div>
       </Container>
     </div>
